@@ -1,0 +1,38 @@
+classDiagram
+    class Usuario {
+        id
+        nombreUsuario
+        contrasena
+        correo
+        rol
+        estado
+        iniciarSesion()
+        controlarAcceso()
+        gestionarPermisos()
+    }
+    class Administrador {
+        nombre
+        usuario
+        gestionarUsuarios()
+        administrarVehiculosYConductores()
+        configurarSistema()
+    }
+    class SupervisorFlota {
+        nombre
+        dni
+        telefono
+        autorizarAsignacionesYViajes()
+        controlarMantenimientos()
+        generarReportes()
+    }
+    class Mecanico {
+        nombre
+        dni
+        especialidad
+        certificacion
+        ejecutarMantenimientos()
+        registrarFallasYReparaciones()
+    }
+    Usuario <|-- Administrador
+    Usuario <|-- SupervisorFlota
+    Usuario <|-- Mecanico

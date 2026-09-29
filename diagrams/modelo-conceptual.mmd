@@ -1,0 +1,99 @@
+classDiagram
+    class Vehiculo {
+        PK id_vehiculo
+        UK codigo
+        UK placa
+        marca
+        modelo
+        anio
+        tipo
+        color
+        kilometraje
+        estado
+        fecha_registro
+        observaciones
+    }
+    class Conductor {
+        PK id_conductor
+        UK dni
+        nombres
+        apellidos
+        UK licencia
+        categoria
+        telefono
+        estado
+        fecha_vencimiento
+    }
+    class Asignacion {
+        PK id_asignacion
+        FK id_vehiculo
+        FK id_conductor
+        fecha_asignacion
+        encargado
+        estado
+    }
+    class Alquiler {
+        PK id_alquiler
+        FK id_vehiculo
+        FK id_conductor
+        fecha_inicio
+        fecha_fin
+        destino
+        motivo
+        estado
+    }
+    class Mantenimiento {
+        PK id_mantenimiento
+        FK id_vehiculo
+        tipo
+        fecha
+        kilometraje
+        descripcion
+        proximo_mantenimiento
+        estado
+    }
+    class DocumentoVehiculo {
+        PK id_documento
+        FK id_vehiculo
+        tipo
+        numero
+        fecha_emision
+        fecha_vencimiento
+        archivo
+        estado
+    }
+    class HistorialVehiculo {
+        PK id_historial
+        FK id_vehiculo
+        FK id_usuario
+        tipo_evento
+        fecha
+        descripcion
+    }
+    class Usuario {
+        PK id_usuario
+        FK id_rol
+        UK nombre_usuario
+        contrasena_hash
+        estado
+        fecha_creacion
+    }
+    class Rol {
+        PK id_rol
+        UK nombre
+        descripcion
+    }
+
+    Vehiculo "1" --> "0..*" Asignacion
+    Vehiculo "1" --> "0..*" Alquiler
+    Vehiculo "1" --> "0..*" Mantenimiento
+    Vehiculo "1" --> "0..*" DocumentoVehiculo
+    Vehiculo "1" --> "0..*" HistorialVehiculo
+    Conductor "1" --> "0..*" Asignacion
+    Conductor "1" --> "0..*" Alquiler
+    Asignacion ..> Alquiler : origina
+    Rol "1" --> "1..*" Usuario
+    Usuario "1" --> "0..*" HistorialVehiculo : registra
+    Asignacion ..> HistorialVehiculo : alimenta
+    Alquiler ..> HistorialVehiculo : alimenta
+    Mantenimiento ..> HistorialVehiculo : alimenta

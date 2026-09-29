@@ -1,0 +1,39 @@
+sequenceDiagram
+    autonumber
+    actor U as Encargado de transporte
+    participant UI as Interfaz web
+    participant BL as Lógica de negocio
+    participant DB as Base de datos
+
+    Note over U,DB: Autenticación y control de acceso
+    U->>UI: Inicia sesión (usuario y contraseña)
+    UI->>BL: Validar credenciales y rol
+    BL->>DB: Consultar usuario y rol
+    DB-->>BL: Datos del usuario y permisos
+    BL-->>UI: Sesión autorizada
+    UI-->>U: Acceso al portal según su rol
+
+    Note over U,DB: Registro de una asignación de vehículo
+    U->>UI: Solicita registrar una asignación
+    UI->>BL: Validar disponibilidad y licencia
+    BL->>DB: Consultar estado del vehículo y vigencia de licencia
+    DB-->>BL: Estado del vehículo y del conductor
+    alt Vehículo disponible y licencia vigente
+        BL->>DB: Registrar asignación
+        BL->>DB: Actualizar estado del vehículo a "Asignado"
+        BL->>DB: Insertar evento en historial del vehículo
+        DB-->>BL: Transacción confirmada
+        BL-->>UI: Operación registrada correctamente
+        UI-->>U: Confirmación de la asignación
+    else Vehículo no disponible o licencia vencida
+        BL-->>UI: Operación rechazada con el motivo
+        UI-->>U: Mensaje de validación
+    end
+
+    Note over U,DB: Consulta de trazabilidad
+    U->>UI: Consulta el historial de la unidad
+    UI->>BL: Solicitar historial del vehículo
+    BL->>DB: Leer historial del vehículo
+    DB-->>BL: Eventos registrados
+    BL-->>UI: Historial consolidado
+    UI-->>U: Historial e informe en pantalla

@@ -1,0 +1,25 @@
+flowchart LR
+    ADM(["Administrador"])
+    TRA(["Encargado de transporte"])
+    MAN(["Encargado de mantenimiento"])
+    SUP(["Supervisor"])
+
+    subgraph SIS["Sistema de Gestión de Vehículos"]
+        direction TB
+        CU1(["Iniciar sesión"])
+        CU2(["Gestionar usuarios y roles"])
+        CU3(["Registrar vehículo"])
+        CU4(["Registrar conductor"])
+        CU5(["Asignar vehículo a conductor"])
+        CU6(["Gestionar alquileres"])
+        CU7(["Registrar mantenimiento"])
+        CU8(["Gestionar documentos y vencimientos"])
+        CU9(["Consultar historial del vehículo"])
+        CU10(["Consultar disponibilidad de la flota"])
+        CU11(["Generar reportes e indicadores"])
+    end
+
+    ADM --- CU1 & CU2 & CU3 & CU4
+    TRA --- CU5 & CU6
+    MAN --- CU7 & CU8 & CU9
+    SUP --- CU10 & CU11

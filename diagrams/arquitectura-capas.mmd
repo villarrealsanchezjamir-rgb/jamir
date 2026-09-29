@@ -1,0 +1,37 @@
+flowchart TB
+    subgraph L1["1 · Capa de presentación"]
+        P1["Aplicación web responsiva"]
+        P2["Portales: Administrador, Transporte, Mantenimiento, Supervisor, Gerencia"]
+        P3["Dashboard e indicadores"]
+    end
+    subgraph L2["2 · Capa de lógica de negocio"]
+        N1["Servicios / API REST"]
+        N2["Reglas de negocio y validaciones"]
+        N3["Motor de alertas: mantenimiento, documentos y licencias"]
+        N4["Generación de reportes e indicadores"]
+        N5["Control de roles y permisos"]
+    end
+    subgraph L3["3 · Capa de acceso a datos"]
+        D1["ORM / Repositorios"]
+        D2["Control de transacciones e integridad"]
+        D3["Auditoría de operaciones críticas"]
+        D4["Consultas parametrizadas"]
+    end
+    subgraph L4["4 · Base de datos (MySQL)"]
+        B1["Modelo relacional normalizado (3FN)"]
+        B2["Claves primarias y foráneas"]
+        B3["Índices de búsqueda y alertas"]
+        B4["Restricciones UNIQUE / NOT NULL"]
+        B5["Respaldos programados"]
+    end
+    subgraph FUT["Integraciones futuras (roadmap, no implementadas)"]
+        F1["GPS / telemetría"]
+        F2["ERP corporativo"]
+        F3["Identidad corporativa (SSO)"]
+        F4["App móvil"]
+        F5["Sensores IoT"]
+        F6["Analítica avanzada"]
+    end
+
+    L1 --> L2 --> L3 --> L4
+    FUT -.-> L2

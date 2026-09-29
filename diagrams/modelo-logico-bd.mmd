@@ -1,0 +1,98 @@
+erDiagram
+    ROL ||--|{ USUARIO : "tiene"
+    USUARIO |o--o{ HISTORIAL_VEHICULO : "registra"
+    VEHICULO ||--o{ ASIGNACION : "recibe"
+    VEHICULO ||--o{ ALQUILER : "registra"
+    VEHICULO ||--o{ MANTENIMIENTO : "requiere"
+    VEHICULO ||--o{ DOCUMENTO_VEHICULO : "posee"
+    VEHICULO ||--o{ HISTORIAL_VEHICULO : "acumula"
+    CONDUCTOR ||--o{ ASIGNACION : "recibe"
+    CONDUCTOR ||--o{ ALQUILER : "realiza"
+
+    ROL {
+        int id_rol PK
+        varchar nombre UK
+        varchar descripcion
+    }
+    USUARIO {
+        int id_usuario PK
+        int id_rol FK
+        varchar nombre_usuario UK
+        varchar contrasena_hash
+        varchar estado
+        datetime fecha_creacion
+    }
+    VEHICULO {
+        int id_vehiculo PK
+        varchar codigo UK
+        varchar placa UK
+        varchar marca
+        varchar modelo
+        smallint anio
+        varchar tipo
+        varchar color
+        decimal kilometraje
+        varchar estado
+        datetime fecha_registro
+        text observaciones
+    }
+    CONDUCTOR {
+        int id_conductor PK
+        varchar dni UK
+        varchar nombres
+        varchar apellidos
+        varchar licencia UK
+        varchar categoria
+        varchar telefono
+        varchar estado
+        date fecha_vencimiento
+        text observaciones
+    }
+    ASIGNACION {
+        int id_asignacion PK
+        int id_vehiculo FK
+        int id_conductor FK
+        datetime fecha_asignacion
+        varchar encargado
+        varchar estado
+    }
+    ALQUILER {
+        int id_alquiler PK
+        int id_vehiculo FK
+        int id_conductor FK
+        datetime fecha_inicio
+        datetime fecha_fin
+        varchar destino
+        varchar motivo
+        varchar estado
+        text observaciones
+    }
+    MANTENIMIENTO {
+        int id_mantenimiento PK
+        int id_vehiculo FK
+        varchar tipo
+        datetime fecha
+        decimal kilometraje
+        text descripcion
+        date proximo_mantenimiento
+        varchar estado
+        text observaciones
+    }
+    DOCUMENTO_VEHICULO {
+        int id_documento PK
+        int id_vehiculo FK
+        varchar tipo
+        varchar numero
+        date fecha_emision
+        date fecha_vencimiento
+        varchar archivo
+        varchar estado
+    }
+    HISTORIAL_VEHICULO {
+        int id_historial PK
+        int id_vehiculo FK
+        int id_usuario FK
+        varchar tipo_evento
+        datetime fecha
+        text descripcion
+    }

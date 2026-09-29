@@ -1,0 +1,18 @@
+flowchart LR
+    A(["Inicio<br/>Necesidad de transporte de personal, materiales o equipos"])
+    B["Verificar disponibilidad<br/>Consultar unidades y revisar su estado operativo"]
+    C{"¿Vehículo disponible?"}
+    D["Gestionar alternativa<br/>Asignar otra unidad o reprogramar el servicio"]
+    E["Asignar vehículo y conductor<br/>Según tipo de servicio y licencia vigente"]
+    F["Realizar el servicio<br/>Ejecutar la ruta y registrar inicio y salida"]
+    G["Monitorear el servicio<br/>Ruta, tiempo y consumo; registrar incidencias"]
+    H["Finalizar el servicio<br/>Confirmar llegada, kilometraje final y observaciones"]
+    I{"¿Requiere mantenimiento?"}
+    J["Registrar mantenimiento<br/>Ejecutar la intervención y registrarla en el sistema"]
+    K(["Unidad liberada<br/>Estado actualizado e historial registrado"])
+
+    A --> B --> C
+    C -- Sí --> E --> F --> G --> H --> I
+    C -- No --> D --> B
+    I -- Sí --> J --> K
+    I -- No --> K

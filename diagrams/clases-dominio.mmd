@@ -1,0 +1,188 @@
+classDiagram
+    direction TB
+
+    class Empresa {
+        PK idEmpresa
+        razonSocial
+        UK ruc
+    }
+    class UnidadMinera {
+        PK idUnidadMinera
+        FK idEmpresa
+        nombre
+        ubicacion
+        estado
+    }
+    class Area {
+        PK idArea
+        FK idUnidadMinera
+        nombre
+        responsable
+    }
+    class TipoVehiculo {
+        PK idTipoVehiculo
+        nombre
+        categoria
+        unidadMedicion
+    }
+    class Vehiculo {
+        PK idVehiculo
+        FK idTipoVehiculo
+        FK idArea
+        UK codigoInterno
+        UK placa
+        marca_modelo
+        anio
+        kilometraje
+        horometro
+        estado
+        fechaRegistro
+    }
+    class Conductor {
+        PK idConductor
+        UK dni
+        nombres_apellidos
+        UK licencia
+        categoria
+        fechaVencimiento
+        estado
+    }
+    class Asignacion {
+        PK idAsignacion
+        FK idVehiculo
+        FK idConductor
+        FK idArea
+        fechaInicio_fechaFin
+        responsable
+        estado
+    }
+    class Alquiler {
+        PK idAlquiler
+        FK idVehiculo
+        FK idConductor
+        fechaInicio_fechaFin
+        destino
+        motivo
+        estado
+    }
+    class TipoMantenimiento {
+        PK idTipoMantenimiento
+        nombre
+        esPreventivo
+    }
+    class Mantenimiento {
+        PK idMantenimiento
+        FK idVehiculo
+        FK idTipoMantenimiento
+        kilometraje_horometro
+        descripcion
+        costo
+        proximoMantenimiento
+        estado
+    }
+    class TipoDocumento {
+        PK idTipoDocumento
+        nombre
+        requiereVencimiento
+    }
+    class DocumentoVehiculo {
+        PK idDocumento
+        FK idVehiculo
+        FK idTipoDocumento
+        numero
+        fechaEmision
+        fechaVencimiento
+        archivoDigital
+        estado
+    }
+    class Inspeccion {
+        PK idInspeccion
+        FK idVehiculo
+        FK idUsuarioInspector
+        fecha
+        resultado
+        observaciones
+        estado
+    }
+    class DetalleInspeccion {
+        PK idDetalle
+        FK idInspeccion
+        item
+        conforme
+        observacion
+    }
+    class Combustible {
+        PK idCombustible
+        FK idVehiculo
+        FK idUsuarioResponsable
+        fecha
+        tipoCombustible
+        cantidad
+        precioUnitario_costoTotal
+        kilometraje_horometro
+    }
+    class Incidente {
+        PK idIncidente
+        FK idVehiculo
+        FK idConductor
+        fecha_lugar
+        tipoIncidente
+        gravedad
+        descripcion
+        accionesTomadas
+        estado
+    }
+    class HistorialVehiculo {
+        PK idHistorial
+        FK idVehiculo
+        FK idUsuario
+        tipoEvento
+        fecha
+        descripcion
+        registrarEvento() solo_insercion
+    }
+    class Rol {
+        PK idRol
+        UK nombre
+        descripcion
+        estado
+    }
+    class Usuario {
+        PK idUsuario
+        FK idRol
+        nombreUsuario
+        contrasenaHash
+        estado
+        fechaCreacion
+    }
+
+    Empresa "1" --> "0..*" UnidadMinera
+    UnidadMinera "1" --> "0..*" Area
+    Area "1" --> "0..*" Vehiculo : ubica
+    TipoVehiculo "1" --> "0..*" Vehiculo
+    Vehiculo "1" --> "0..*" Asignacion
+    Conductor "1" --> "0..*" Asignacion
+    Area "1" --> "0..*" Asignacion
+    Vehiculo "1" --> "0..*" Alquiler
+    Conductor "1" --> "0..*" Alquiler
+    Asignacion ..> Alquiler : puede originar
+    TipoMantenimiento "1" --> "0..*" Mantenimiento
+    Vehiculo "1" --> "0..*" Mantenimiento
+    TipoDocumento "1" --> "0..*" DocumentoVehiculo
+    Vehiculo "1" --> "0..*" DocumentoVehiculo
+    Vehiculo "1" --> "0..*" Inspeccion : habilita / inhabilita
+    Inspeccion "1" --> "1..*" DetalleInspeccion
+    Vehiculo "1" --> "0..*" Combustible
+    Vehiculo "1" --> "0..*" Incidente
+    Conductor "1" --> "0..*" Incidente
+    Vehiculo "1" --> "0..*" HistorialVehiculo
+    Rol "1" --> "1..*" Usuario : asigna
+    Usuario "1" --> "0..*" Inspeccion : inspecciona
+    Usuario "1" --> "0..*" Combustible : registra
+    Usuario "1" --> "0..*" HistorialVehiculo : registra
+    Asignacion ..> HistorialVehiculo : alimenta
+    Alquiler ..> HistorialVehiculo : alimenta
+    Mantenimiento ..> HistorialVehiculo : alimenta
+    Inspeccion ..> HistorialVehiculo : alimenta
+    Incidente ..> HistorialVehiculo : alimenta
+    Combustible ..> HistorialVehiculo : alimenta

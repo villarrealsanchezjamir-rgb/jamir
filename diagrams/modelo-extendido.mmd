@@ -1,0 +1,266 @@
+classDiagram
+    direction TB
+
+    class Rol {
+        PK idRol
+        UK nombre
+        descripcion
+        estado
+    }
+    class Permiso {
+        PK idPermiso
+        nombre
+        modulo
+        accion
+    }
+    class Usuario {
+        PK idUsuario
+        FK idRol
+        UK username
+        UK email
+        passwordHash
+        estado
+    }
+    class Sesion {
+        PK idSesion
+        FK idUsuario
+        token
+        ip
+        fechaInicio
+        activa
+    }
+    class TipoVehiculo {
+        PK idTipoVehiculo
+        nombre
+        descripcion
+        estado
+    }
+    class Marca {
+        PK idMarca
+        nombre
+        paisOrigen
+    }
+    class Modelo {
+        PK idModelo
+        FK idMarca
+        nombre
+        especificaciones
+    }
+    class Vehiculo {
+        PK idVehiculo
+        FK idTipoVehiculo
+        FK idModelo
+        FK idProveedor
+        UK placa
+        UK codigoInterno
+        vin
+        anio
+        capacidadCarga
+        kilometrajeActual
+        estado
+        fechaAdquisicion
+        costoAdquisicion
+    }
+    class EstadoVehiculo {
+        <<enumeration>>
+        Disponible
+        Asignado
+        En mantenimiento
+        Fuera de servicio
+        Vendido
+    }
+    class Conductor {
+        PK idConductor
+        UK dni
+        nombres_apellidos
+        categoriaLicencia
+        telefono
+        UK email
+        estado
+    }
+    class LicenciaConductor {
+        PK idLicencia
+        FK idConductor
+        UK numeroLicencia
+        categoria
+        fechaEmision
+        fechaVencimiento
+        estado
+    }
+    class AsignacionVehiculo {
+        PK idAsignacion
+        FK idVehiculo
+        FK idConductor
+        fechaInicio_fechaFin
+        kilometrajeInicio
+        kilometrajeFin
+        observaciones
+    }
+    class EmpresaMinera {
+        PK idEmpresa
+        nombre
+        UK ruc
+        direccion
+        telefono
+        email
+    }
+    class Proveedor {
+        PK idProveedor
+        nombre
+        UK ruc
+        contacto
+        telefono
+        direccion
+        estado
+    }
+    class Mantenimiento {
+        PK idMantenimiento
+        FK idVehiculo
+        FK idTipoMantenimiento
+        fechaProgramada
+        fechaRealizada
+        kilometraje
+        descripcion
+        costoManoObra
+        costoRepuestos
+        estado
+    }
+    class DetalleMantenimiento {
+        PK idDetalle
+        FK idMantenimiento
+        FK idRepuesto
+        cantidad
+        precioUnitario
+        subtotal
+    }
+    class Repuesto {
+        PK idRepuesto
+        UK codigo
+        nombre
+        descripcion
+        stock
+        unidadMedida
+        precio
+    }
+    class TipoDocumento {
+        PK idTipoDocumento
+        UK nombre
+        descripcion
+        requiereVencimiento
+    }
+    class DocumentoVehiculo {
+        PK idDocumento
+        FK idVehiculo
+        FK idTipoDocumento
+        numero
+        fechaEmision
+        fechaVencimiento
+        archivoUrl
+        estado
+    }
+    class AlertaDocumento {
+        PK idAlerta
+        FK idDocumento
+        fechaAlerta
+        diasRestantes
+        mensaje
+        leida
+    }
+    class EstacionServicio {
+        PK idEstacion
+        nombre
+        direccion
+        contacto
+    }
+    class CargaCombustible {
+        PK idCarga
+        FK idVehiculo
+        FK idEstacion
+        fechaHora
+        litros
+        costoTotal
+        odometro
+        responsable
+        comprobante
+    }
+    class DispositivoGPS {
+        PK idDispositivo
+        FK idVehiculo
+        UK codigo
+        imei
+        modelo
+        fechaInstalacion
+        estado
+    }
+    class UbicacionGPS {
+        PK idUbicacion
+        FK idDispositivo
+        fechaHora
+        latitud_longitud
+        velocidad
+        rumbo
+        odometro
+    }
+    class Geocerca {
+        PK idGeocerca
+        nombre
+        tipo
+        latitudCentro
+        longitudCentro
+        radio
+        estado
+    }
+    class AlertaGPS {
+        PK idAlertaGPS
+        FK idVehiculo
+        FK idGeocerca
+        tipoAlerta
+        fechaHora
+        mensaje
+        leida
+    }
+    class CostoOperativo {
+        PK idCosto
+        FK idVehiculo
+        tipoCosto
+        fecha
+        monto
+        descripcion
+        comprobante
+    }
+    class Reporte {
+        PK idReporte
+        FK idUsuario
+        nombre
+        tipoReporte
+        parametros
+        fechaGeneracion
+        archivoUrl
+    }
+
+    Rol "1" --> "0..*" Permiso
+    Rol "1" --> "0..*" Usuario
+    Usuario "1" --> "0..*" Sesion
+    TipoVehiculo "1" --> "0..*" Vehiculo
+    Marca "1" --> "0..*" Modelo
+    Modelo "1" --> "0..*" Vehiculo
+    Proveedor "1" --> "0..*" Vehiculo
+    EmpresaMinera "1" --> "0..*" Proveedor
+    Vehiculo ..> EstadoVehiculo
+    Conductor "1" --> "1..*" LicenciaConductor
+    Conductor "1" --> "0..*" AsignacionVehiculo
+    Vehiculo "1" --> "0..*" AsignacionVehiculo
+    Vehiculo "1" --> "0..*" Mantenimiento
+    Mantenimiento "1" --> "1..*" DetalleMantenimiento
+    Repuesto "1" --> "0..*" DetalleMantenimiento
+    TipoDocumento "1" --> "0..*" DocumentoVehiculo
+    Vehiculo "1" --> "0..*" DocumentoVehiculo
+    DocumentoVehiculo "1" --> "0..*" AlertaDocumento
+    EstacionServicio "1" --> "0..*" CargaCombustible
+    Vehiculo "1" --> "0..*" CargaCombustible
+    Vehiculo "1" --> "0..1" DispositivoGPS
+    DispositivoGPS "1" --> "0..*" UbicacionGPS
+    Geocerca "1" --> "0..*" AlertaGPS
+    Vehiculo "1" --> "0..*" AlertaGPS
+    Vehiculo "1" --> "0..*" CostoOperativo
+    Usuario "1" --> "0..*" Reporte

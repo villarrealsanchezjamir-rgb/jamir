@@ -1,0 +1,18 @@
+stateDiagram-v2
+    direction LR
+    state "Disponible<br/>puede ser asignado u operado" as Disponible
+    state "Asignado / Alquilado<br/>en operación con conductor" as Asignado
+    state "En mantenimiento<br/>no puede ser asignado" as Mantenimiento
+    state "Fuera de servicio<br/>no puede ser utilizado" as FueraServicio
+
+    [*] --> Disponible : registro de la unidad
+    Disponible --> Asignado : asignación / alquiler
+    Asignado --> Disponible : finalización del servicio
+    Disponible --> Mantenimiento : programación o falla detectada
+    Mantenimiento --> Disponible : mantenimiento concluido
+    Asignado --> Mantenimiento : incidencia durante el servicio
+    Asignado --> FueraServicio : incidente grave
+    Disponible --> FueraServicio : baja operativa
+    Mantenimiento --> FueraServicio : falla no reparable
+    FueraServicio --> Disponible : habilitación tras reparación
+    FueraServicio --> [*] : baja definitiva

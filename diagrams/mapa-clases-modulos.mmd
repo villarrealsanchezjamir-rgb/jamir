@@ -1,0 +1,69 @@
+flowchart LR
+    subgraph M1["Organización y flota (4)"]
+        Empresa
+        AreaOperativa["ÁreaOperativa"]
+        TipoVehiculo["TipoVehículo"]
+        Vehiculo["Vehículo"]
+    end
+    subgraph M2["Operación y transporte (4)"]
+        Conductor
+        AsignacionVehiculo["AsignaciónVehículo"]
+        Viaje
+        Ruta
+    end
+    subgraph M3["Mantenimiento (5)"]
+        Mantenimiento
+        MantenimientoPreventivo
+        MantenimientoCorrectivo
+        Repuesto
+        Taller
+    end
+    subgraph M4["Control operativo (3)"]
+        Combustible
+        Inspeccion["Inspección"]
+        Incidente
+    end
+    subgraph M5["Documentación y seguros (2)"]
+        DocumentoVehicular
+        Seguro
+    end
+    subgraph M6["Monitoreo y avisos (3)"]
+        GPS
+        Alerta
+        Notificacion["Notificación"]
+    end
+    subgraph M7["Usuarios y roles (4)"]
+        Usuario
+        Administrador
+        SupervisorFlota
+        Mecanico["Mecánico"]
+    end
+
+    Empresa --> AreaOperativa
+    Empresa --> Vehiculo
+    AreaOperativa --> AsignacionVehiculo
+    TipoVehiculo --> Vehiculo
+    Vehiculo --> AsignacionVehiculo
+    Conductor --> AsignacionVehiculo
+    Ruta --> Viaje
+    Vehiculo --> Viaje
+    Conductor --> Viaje
+    Vehiculo --> Mantenimiento
+    Mantenimiento --> MantenimientoPreventivo
+    Mantenimiento --> MantenimientoCorrectivo
+    Mantenimiento --> Repuesto
+    Mantenimiento --> Taller
+    Vehiculo --> Combustible
+    Vehiculo --> Inspeccion
+    Vehiculo --> Incidente
+    Conductor --> Incidente
+    Vehiculo --> DocumentoVehicular
+    Vehiculo --> Seguro
+    Vehiculo --> GPS
+    GPS --> Alerta
+    DocumentoVehicular --> Alerta
+    Seguro --> Alerta
+    Alerta --> Notificacion
+    Usuario --> Administrador
+    Usuario --> SupervisorFlota
+    Usuario --> Mecanico
